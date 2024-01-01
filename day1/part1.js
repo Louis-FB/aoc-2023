@@ -20,4 +20,5 @@ const loop = () => {
   const total = newArray.reduce((acc, cur) => acc + cur);
   console.log(total);
 };
+
 loop();
