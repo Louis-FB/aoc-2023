@@ -1,11 +1,14 @@
 import { readFileSync } from "node:fs";
 
+// Import the file
 const elves = readFileSync("../data/input.txt", { encoding: "utf-8" })
   .trim()
   .split("\n");
 
+// Create empty array to contain values
 const newArray = [];
 
+// Parse words to numbers
 function numberParser(num) {
   if (num == "one" || num == "1") {
     return "1";
@@ -28,21 +31,26 @@ function numberParser(num) {
   }
 }
 
+// Loop through each line of the file
 const loopElves = () => {
   for (let i = 0; i < elves.length; i++) {
+    // Match either based on integer or words
     let matches = elves[i].match(
       /(?:one|two|three|four|five|six|seven|eight|nine|\d)/g
     );
-    // console.log(`All matches: ${matches}`);
+    // If only one match is found, it will return two of the same
     if (matches.length === 1) {
       let newVal = numberParser(matches[0]) + numberParser(matches[0]);
       newArray.push(parseInt(newVal));
-    } else {
+    }
+    // Find first and last if more than one matches are found
+    else {
       let newVal =
         numberParser(matches[0]) + numberParser(matches[matches.length - 1]);
       newArray.push(parseInt(newVal));
     }
   }
+  // Add up the total
   const total = newArray.reduce((acc, cur) => acc + cur);
   console.log(total);
 };
