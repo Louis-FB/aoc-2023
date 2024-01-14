@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-// Import the file
+// Import the file and arrayifies
 const elves = readFileSync("../data/input.txt", { encoding: "utf-8" })
   .trim()
   .split("\n");
@@ -35,20 +35,24 @@ function numberParser(num) {
 const loopElves = () => {
   for (let i = 0; i < elves.length; i++) {
     // Match either based on integer or words
-    let matches = elves[i].match(
+
+    const expression = new RegExp(
       /(?:one|two|three|four|five|six|seven|eight|nine|\d)/g
     );
-    // If only one match is found, it will return two of the same
-    if (matches.length === 1) {
-      let newVal = numberParser(matches[0]) + numberParser(matches[0]);
-      newArray.push(parseInt(newVal));
-    }
-    // Find first and last if more than one matches are found
-    else {
-      let newVal =
-        numberParser(matches[0]) + numberParser(matches[matches.length - 1]);
-      newArray.push(parseInt(newVal));
-    }
+
+    const reversedExpression = new RegExp(
+      /(?:eno|owt|eerht|ruof|evif|xis|neves|thgie|enin|\d)/g
+    );
+
+    const reversedElves = elves[i].split("").reverse().join("");
+
+    const matches1 = elves[i].match(expression);
+    const matches2 = reversedElves.match(reversedExpression);
+
+    const newVal =
+      numberParser(matches1[0]) +
+      numberParser(matches2[0].split("").reverse().join(""));
+    newArray.push(parseInt(newVal));
   }
   // Add up the total
   const total = newArray.reduce((acc, cur) => acc + cur);
