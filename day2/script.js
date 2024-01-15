@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 
-const games = readFileSync("../data/test.txt", { encoding: "utf-8" })
+const games = readFileSync("../data/input2.txt", { encoding: "utf-8" })
   .trim()
   .split("\n");
 
@@ -15,43 +15,29 @@ const showGames = () => {
 
     // Sets are each individual "play" of the game divided by semicolons.
     const sets = rows.split("; ");
-    sets.forEach((set) => {
-      // Handfuls are each collection of dice which includes the colour and the count.
-      let handful = set.split(", ");
-      for (let n = 0; n < handful.length; n++) {
-        let subHandful = handful[n].split(" ");
+    sets.forEach((e) => {
+      let handful = e.split(", ");
+      handful.forEach((h) => {
+        let dice = h.split(" ");
         if (unplayableGames.includes(i + 1)) {
-          break;
+          return;
         } else if (
-          (subHandful[n] == "red" && subHandful[n - 1] > 12) ||
-          (subHandful[n] == "green" && subHandful[n - 1] > 13) ||
-          (subHandful[n] === "blue" && subHandful[n - 1] > 14)
+          (dice[1] == "red" && dice[0] > 12) ||
+          (dice[1] == "green" && dice[0] > 13) ||
+          (dice[1] == "blue" && dice[0] > 14)
         ) {
           unplayableGames.push(i + 1);
-          //   playableGames = totalGames.filter((game) => game === i + 1);
-          //   let unplayable = i + 1;
-          //   playableGames = totalGames.filter((game) =>
-          //     unplayable.includes(game)
-          //   );
-
-          //   break;
         }
-        // return;
-      }
+      });
     });
-  }
-  console.log("Total games:");
-  console.log(totalGames);
 
-  console.log("Unplayable games");
-  console.log(unplayableGames);
+    // Handfuls are each collection of dice which includes the colour and the count.
+  }
   const playableGames = totalGames.filter(
     (game) => !unplayableGames.includes(game)
   );
 
-  console.log("Total with unplayables removed:");
-  console.log(playableGames);
-  //   const total = playableGames.reduce((acc, cur) => acc + cur);
-  //   console.log(total);
+  const total = playableGames.reduce((acc, cur) => acc + cur);
+  console.log(total);
 };
 showGames();
