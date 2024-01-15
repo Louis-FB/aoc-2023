@@ -10,10 +10,8 @@ const totalGames = [];
 const showGames = () => {
   for (let i = 0; i < games.length; i++) {
     totalGames.push(i + 1);
-    // Rows are each entire game, so a row.
     const rows = games[i].split(":")[1].trim();
 
-    // Sets are each individual "play" of the game divided by semicolons.
     const sets = rows.split("; ");
     sets.forEach((e) => {
       let handful = e.split(", ");
@@ -30,8 +28,6 @@ const showGames = () => {
         }
       });
     });
-
-    // Handfuls are each collection of dice which includes the colour and the count.
   }
   const playableGames = totalGames.filter(
     (game) => !unplayableGames.includes(game)
